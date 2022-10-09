@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-height: 100vh;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+
+
+}
+
+body {
+    height: inherit;
+    display: grid;
+    overflow: hidden;
+    background-color: tomato;
+    grid-template-areas:
+        "vp1 vp2 . . ."
+        ". vp3 vp4 . ."
+        ". . vp5 vp6 ."
+        ". . . vp7 vp8"
+        ". . . .   vp9"
+    ;
+}
+
+#vp1 {
+    grid-area: vp1;
+}
+
+
+#vp2 {
+    grid-area: vp2;
+}
+
+
+#vp3 {
+    grid-area: vp3;
+}
+
+
+#vp4 {
+    grid-area: vp4;
+}
+
+
+#vp5 {
+    grid-area: vp5;
+}
+
+
+#vp6 {
+    grid-area: vp6;
+}
+
+
+#vp7 {
+    grid-area: vp7;
+}
+
+
+#vp8 {
+    grid-area: vp8;
+}
+
+
+#vp9 {
+    grid-area: vp9;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.fillViewport {
+    width: 100vw;
+    height: 100vh;
+    font-size: 50px;
+    overflow: scroll;
+}
+
+.fillViewport:nth-child(3n) {
+    background-color: #ccc;
+}
+
+.fillViewport:nth-child(3n+1) {
+    background-color: #eee;
+}
+
+.fillViewport:nth-child(3n+2) {
+    background-color: #aaa;
+}
+
+.routes {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background-color: #eee4;
+    gap: 2vh;
+    position: fixed;
+
+    right: 1%;
+    top: 50%;
+    transform: translateY(-50%)
+        /* top: 10%  */
+}

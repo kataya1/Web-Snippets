@@ -1,0 +1,45 @@
+
+#vp1{
+    grid-area: vp1;
+}
+
+
+#vp2{
+    grid-area: vp2;
+}
+
+
+#vp3{
+    grid-area: vp3;
+}
+
+
+#vp4{
+    grid-area: vp4;
+}
+
+
+#vp5{
+    grid-area: vp5;
+}
+
+
+#vp6{
+    grid-area: vp6;
+}
+
+
+#vp7{
+    grid-area: vp7;
+}
+
+
+#vp8{
+    grid-area: vp8;
+}
+
+
+#vp9{
+    grid-area: vp9;
+}
+
