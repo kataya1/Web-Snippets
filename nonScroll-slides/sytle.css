@@ -11,6 +11,12 @@ html {
 
 }
 
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
 body {
     height: inherit;
     display: grid;
@@ -69,11 +75,7 @@ body {
     grid-area: vp9;
 }
 
-*,
-*:before,
-*:after {
-    box-sizing: inherit;
-}
+
 
 .fillViewport {
     width: 100vw;
