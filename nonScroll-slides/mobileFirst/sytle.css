@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+html {
+    min-height: 100vh;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    overflow: hidden;
+}
+
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background-color: tomato;
+
+}
+
+.app {
+    /* overscroll-behavior: contain; */
+    scroll-behavior: smooth;
+    width: 100vw;
+    height: inherit;
+    display: grid;
+    grid-template-columns: repeat(9, 100vw);
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+}
+
+
+
+.fillViewport {
+    display: block;
+    height: 100vh;
+    font-size: 30px;
+    overflow-y: scroll;
+    scroll-snap-align: start;
+}
+
+.fillViewport:nth-child(3n) {
+    background-color: #ccc;
+}
+
+.fillViewport:nth-child(3n+1) {
+    background-color: #eee;
+}
+
+.fillViewport:nth-child(3n+2) {
+    background-color: #aaa;
+}
+
+.routes {
+    font-size: larger;
+    display: flex;
+    flex-direction: row;
+
+    background-color: #eee4;
+    gap: 2vw;
+    justify-content: space-evenly;
+    position: fixed;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* top: 10%  */
+}
+
+.routes a {
+    min-width: 7px;
+    padding: 2vw;
+}
+
+@media only screen and (min-width: 992px) {
+    .app {
+        grid-template-areas:
+            "vp1 vp2 . . ."
+            ". vp3 vp4 . ."
+            ". . vp5 vp6 ."
+            ". . . vp7 vp8"
+            ". . . .   vp9"
+        ;
+        overflow-x: hidden;
+    }
+
+    .routes {
+        flex-direction: column;
+        gap: 2vh;
+        right: 1%;
+        top: 50%;
+        left: unset;
+        bottom: unset;
+        transform: translateY(-50%)
+    }
+
+    .routes a {
+        min-width: 7px;
+        padding: 2vh;
+    }
+
+    #vp1 {
+        grid-area: vp1;
+    }
+
+
+    #vp2 {
+        grid-area: vp2;
+    }
+
+
+    #vp3 {
+        grid-area: vp3;
+    }
+
+
+    #vp4 {
+        grid-area: vp4;
+    }
+
+
+    #vp5 {
+        grid-area: vp5;
+    }
+
+
+    #vp6 {
+        grid-area: vp6;
+    }
+
+
+    #vp7 {
+        grid-area: vp7;
+    }
+
+
+    #vp8 {
+        grid-area: vp8;
+    }
+
+
+    #vp9 {
+        grid-area: vp9;
+    }
+
+}

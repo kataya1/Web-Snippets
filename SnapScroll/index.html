@@ -8,16 +8,32 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
         .scroller {
-            height: 300px;
+            height: 30vh;
             width: 500px;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            display: flex;
+            flex-direction: row;
         }
 
         .scroller section {
-            height: 300px;
+
+            overflow-y: scroll;
+            min-height: inherit;
+            min-width: 100%;
             border: 4px solid black;
+            /* you need this for scroll-snap-type to work */
             scroll-snap-align: start;
         }
 
@@ -30,7 +46,13 @@
 <body>
     <article class="scroller">
         <section>
-            <h2>Section one</h2>
+            <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet minima iure cum, a eveniet, assumenda
+                molestias placeat delectus, accusantium aut neque ducimus eligendi doloribus aliquam magni libero sit
+                laudantium quisquam!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque totam beatae, porro asperiores, sequi
+                aliquid cumque culpa nesciunt laudantium eligendi architecto obcaecati neque expedita non ipsa, harum
+                fugit esse eum!
+            </h2>
         </section>
         <section>
             <h2>Section two</h2>
@@ -39,6 +61,9 @@
             <h2>Section three</h2>
         </section>
     </article>
+    <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Non deserunt praesentium, vel, dolorem, impedit facere
+        quod labore blanditiis atque dolore eum ex amet nulla quae exercitationem! Explicabo molestias distinctio
+        delectus.</h2>
 </body>
 
 </html>
