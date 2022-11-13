@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            width: 200px;
+        }
+
+        h2 {
+            /* display: block;
+            position: relative; */
+            width: 100px;
+            background-color: tomato;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>hi</h2>
+    <script>
+        const el = document.querySelector("h2")
+        let pos = 0;
+        function moveRight() {
+            pos += 5; // move right 5 pixels
+            el.style.transform = `translateX(${pos}px)`;
+            if (pos < 1000) { // animate until we reach 100px
+                requestAnimationFrame(moveRight);
+            }
+            else {
+                pos = 0
+                requestAnimationFrame(moveRight)
+            }
+        }
+
+        requestAnimationFrame(moveRight);
+
+    </script>
+</body>
