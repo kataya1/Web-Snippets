@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: blanchedalmond;
+    }
+
+    pre {
+        margin: 10px;
+        min-width: 500px;
+        border: 2px solid black;
+    }
+
+    #rand {
+
+        min-width: 50px;
+        min-height: 50px;
+    }
+</style>
+
+<body>
+    <pre>
+let foo, bar, baz;
+fetch("fiveSecondRequest.com\hello").then( data => foo = data.response )
+fetch("fiveSecondRequest.com\Greetings").then( data => bar = data.response )
+fetch("fiveSecondRequest.com\Whatever").then( data => baz = data.response )
+
+console.log(foo)
+console.log(bar)
+console.log(baz)
+
+
+
+        <button onclick="foobarbaz()"> Run </button>
+    </pre>
+    <button id="rand" onclick="randomColor()">Random color</button>
+    <script>
+        const foobarbaz = () => {
+            let foo = "hello", bar = "Greetings", baz = "Whatever";
+            let countdown = 5000000000
+            console.log("Requesting: \\hello")
+            while (countdown) {
+                countdown -= 1
+            }
+            console.log("Requesting: \\Greetings")
+            countdown = 5000000000
+            while (countdown) {
+                countdown -= 1
+            }
+            console.log("Requesting: \\Whatever")
+            countdown = 5000000000
+            while (countdown) {
+                countdown -= 1
+            }
+
+            console.log(foo)
+            console.log(bar)
+            console.log(baz)
+        }
+
+        const randomColor = () => {
+            const rand = document.querySelector("#rand")
+            let color = Math.floor(Math.random() * 0xFFFFFF).toString(16)
+            rand.style.backgroundColor = `#${'0'.repeat(6 - color.length)}${color}`
+            console.log(color)
+        }
+    </script>
+</body>
+
+</html>
