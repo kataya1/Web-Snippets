@@ -26,6 +26,12 @@
 </style>
 
 <body>
+    <h3>Check the Console</h3>
+    This is a demo using while loops no real fetching
+    <p>This simulate what if javascript was Synchronous aka blocking</p>
+    <p>Try clicking the random color before and after clicking run</p>
+    <p>Everything else like events is queued while the browser is fetching</p>
+    <p>Ofcourse events and others are registered but don't take effect except after the code executes</p>
     <pre>
 let foo, bar, baz;
 fetch("fiveSecondRequest.com\hello").then( data => foo = data.response )

@@ -59,9 +59,9 @@ body {
 }
 
 .routes {
-    font-size: larger;
     display: flex;
     flex-direction: row;
+    font-size: larger;
 
     background-color: #eee4;
     gap: 2vw;
