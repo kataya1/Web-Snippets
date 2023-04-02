@@ -35,26 +35,17 @@
     cursor: grabbing;
 }
 
-.opacity0 {
-    opacity: 0;
+
+.dragging {
+    opacity: 0.5;
 }
 
-
-.drag-clone {
+.drag-image {
     position: fixed;
     left: -9999px;
 }
 
-.dragging {
-    opacity: 0.5;
-    /* Reduce opacity while dragging */
-    /* Prevent clicks from passing through to element */
-    transition: transform 0.2s ease;
-    /* Apply transition for smooth dragging */
 
-    transform: translate(2px, 2px);
-    /* Slight offset while dragging */
-}
 
 .dragging:hover {
     cursor: grabbing;

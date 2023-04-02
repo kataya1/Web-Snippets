@@ -17,29 +17,27 @@ function dragStart(e, draggable) {
 
     // Create drag image 
     const clone = draggable.cloneNode(true);
-    clone.classList.add('dragging');
-    clone.style.position = 'fixed';
-    clone.style.left = '-9999px';
-    draggable.style.opacity = 0;
+    clone.classList.add('drag-image');
 
-    // Add clone to document and set as drag image 
+    // Append clone 
     document.body.appendChild(clone);
     e.dataTransfer.setDragImage(clone, offset.x, offset.y);
 
+    draggable.classList.add('dragging');
     draggable.setAttribute('aria-grabbed', 'true');
     draggable.setAttribute('role', 'draggable');
     e.dataTransfer.setData('text/plain', draggable.id);
 }
 
 function dragEnd(e, draggable) {
-    // Logic for drag end 
-    document.body.removeChild(document.querySelector('.dragging'));
-    draggable.style.removeProperty('opacity');
+    document.body.removeChild(document.querySelector('.drag-image'));
 
-    draggable.setAttribute('aria-grabbed', 'false');
     draggable.classList.remove('dragging');
+    draggable.setAttribute('aria-grabbed', 'false');
+
     e.dataTransfer.clearData();
     draggable.blur();
+    ;
 }
 
 dropTarget.addEventListener('dragenter', e => {
