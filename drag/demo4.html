@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- This has the drag ghost: the oringial dragged item style can changes (opacity 0.5) aswell as the dragged image, the image can be customized furthor using drag-image class  -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drag demo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dragContainer {
+            max-width: 200px;
+            min-height: 200px;
+            max-height: 200px;
+            overflow: scroll;
+            background-color: yellow;
+            margin: 20px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            border: 2px solid black;
+            border-radius: 5px;
+            gap: 5px;
+            /* to solve the huge gaps between the rows when the container is empty problem */
+            align-content: flex-start;
+        }
+
+        .draggable {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            cursor: grab;
+            border-radius: 5px;
+            border: 1px solid black;
+
+        }
+
+        .draggable:active:focus {
+            cursor: grabbing;
+        }
+
+
+        .dragging {
+            opacity: 0.5;
+        }
+
+        .drag-image {
+            position: fixed;
+            left: -9999px;
+        }
+
+
+
+        .dragging:hover {
+            cursor: grabbing;
+            /* Override any previous cursor on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dragContainer">
+        <div class="draggable" draggable="true">Drag me 1</div>
+        <div class="draggable" draggable="true">Drag me 2</div>
+        <div class="draggable" draggable="true">Drag me 3</div>
+
+    </div>
+    <div id="dropTarget" class="dragContainer"></div>
+</body>
+<script>
+    const draggables = document.querySelectorAll('.draggable');
+    const dropTarget = document.getElementById('dropTarget');
+
+    // Cache draggable elements 
+    draggables.forEach((draggable, i) => {
+        draggable.id = `draggable-${i}`;
+        draggable.addEventListener('dragstart', e => dragStart(e, draggable));
+        draggable.addEventListener('dragend', e => dragEnd(e, draggable));
+    });
+
+    function dragStart(e, draggable) {
+        const rect = draggable.getBoundingClientRect();
+        const offset = {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        };
+
+        // Create drag image 
+        const clone = draggable.cloneNode(true);
+        clone.classList.add('drag-image');
+
+        // Append clone 
+        document.body.appendChild(clone);
+        e.dataTransfer.setDragImage(clone, offset.x, offset.y);
+
+        draggable.classList.add('dragging');
+        draggable.setAttribute('aria-grabbed', 'true');
+        draggable.setAttribute('role', 'draggable');
+        e.dataTransfer.setData('text/plain', draggable.id);
+    }
+
+    function dragEnd(e, draggable) {
+        document.body.removeChild(document.querySelector('.drag-image'));
+
+        draggable.classList.remove('dragging');
+        draggable.setAttribute('aria-grabbed', 'false');
+
+        e.dataTransfer.clearData();
+        draggable.blur();
+        ;
+    }
+
+    dropTarget.addEventListener('dragenter', e => {
+        e.preventDefault()
+    });
+    dropTarget.addEventListener('dragover', e => {
+        e.preventDefault()
+    });
+    dropTarget.addEventListener('drop', e => {
+        const id = e.dataTransfer.getData('text/plain');
+        const draggable = document.getElementById(id);
+        dropTarget.appendChild(draggable);
+    });
+
+</script>
+
+</html>
