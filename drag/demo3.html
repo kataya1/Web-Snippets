@@ -7,14 +7,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>drag demo</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
+<style>
+    * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+    }
+
+    .dragContainer {
+        max-width: 200px;
+        min-height: 200px;
+        max-height: 200px;
+        overflow: scroll;
+        background-color: yellow;
+        margin: 20px;
+        padding: 10px;
+        /* display: flex; */
+        /* flex-wrap: wrap; */
+        border: 2px solid black;
+        border-radius: 5px;
+        /* gap: 5px; */
+        /* to solve the huge gaps between the rows when the container is empty problem */
+        /* align-content: flex-start; */
+    }
+
+    .draggable {
+        width: 50px;
+        height: 50px;
+        background-color: white;
+        cursor: grab;
+        border-radius: 5px;
+        border: 1px solid black;
+
+    }
+
+    .draggable:active {
+        cursor: grabbing;
+    }
+</style>
 
 <body>
     <div class="dragContainer">
         <div class="draggable" draggable="true">Drag me 1</div>
         <div class="draggable" draggable="true">Drag me 2</div>
         <div class="draggable" draggable="true">Drag me 3</div>
+
     </div>
     <div id="dropTarget" class="dragContainer"></div>
 </body>
@@ -23,23 +61,44 @@
     const draggables = document.querySelectorAll('.draggable');
     const dropTarget = document.getElementById('dropTarget');
 
-    Array.from(draggables).forEach((draggable, i) => {
+
+
+    draggables.forEach((draggable, i) => {
         draggable.id = `draggable-${i}`;
         draggable.addEventListener('dragstart', e => {
+            draggable.setAttribute('aria-grabbed', 'true');
+            draggable.setAttribute('role', 'draggable');
+            // draggable.classList.add('dragging');
             e.dataTransfer.setData('text/plain', draggable.id);
+        });
+        draggable.addEventListener('dragend', e => {
+            draggable.setAttribute('aria-grabbed', 'false');
+            draggable.classList.remove('dragging');
+            e.dataTransfer.clearData();
+            draggable.blur();
         });
     });
 
+
+    dropTarget.addEventListener('dragenter', e => {
+        e.preventDefault()
+        console.log('dragenter')
+
+    })
     dropTarget.addEventListener('dragover', e => {
-        e.preventDefault();
+        e.preventDefault()
+        console.log('dragover')
+    })
+    dropTarget.addEventListener('drop', e => {
+        console.log(e.dataTransfer)
+        const id = e.dataTransfer.getData('text/plain');
+        const draggable = document.getElementById(id)
+        dropTarget.appendChild(draggable);
     });
 
-    dropTarget.addEventListener('drop', e => {
-        const id = e.dataTransfer.getData('text/plain');
-        const draggable = document.getElementById(id);
-        e.target.appendChild(draggable);
-    });
+
+
 
 </script>
 
-</html>,
+</html>
