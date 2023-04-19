@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Drag and Drop File API Example</title>
+    <style>
+        #dropzone {
+            width: 400px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            text-align: center;
+            font-size: 20px;
+            padding-top: 50px;
+        }
+
+        .active {
+            background-color: aquamarine;
+        }
+    </style>
+    <script>
+        function handleDrop(e) {
+            e.preventDefault();
+            var files = e.dataTransfer.files;
+            var output = [];
+            for (var i = 0, f; f = files[i]; i++) {
+                output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                    f.size, ' bytes, last modified: ',
+                    f.lastModifiedDate.toLocaleDateString(), '</li>');
+            }
+            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+            document.getElementById('dropzone').classList.remove('active');
+
+        }
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+            document.getElementById('dropzone').classList.add('active');
+        }
+        function handleDragLeave(e) {
+            document.getElementById('dropzone').classList.remove('active');
+        }
+        function handleFileSelect(e) {
+            var files = e.target.files; // FileList object
+            var output = [];
+            for (var i = 0, f; f = files[i]; i++) {
+                output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                    f.size, ' bytes, last modified: ',
+                    f.lastModifiedDate.toLocaleDateString(), '</li>');
+            }
+            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+        }
+        function init() {
+            var dropzone = document.getElementById('dropzone');
+            dropzone.addEventListener('dragover', handleDragOver, false);
+            dropzone.addEventListener('dragleave', handleDragLeave, false);
+            dropzone.addEventListener('drop', handleDrop, false);
+
+            var fileInput = document.getElementById('fileInput');
+            fileInput.addEventListener('change', handleFileSelect, false);
+        }
+        document.addEventListener('DOMContentLoaded', init, false);
+    </script>
+</head>
+
+<body>
+    <h1>Drag and Drop File API Example</h1>
+    <div id="dropzone">Drop files here</div>
+    <h2>Selected files:</h2>
+    <ul id="list"></ul>
+    <input type="file" id="fileInput" multiple>
+    <p>Read more <a href="https://web.dev/patterns/files/drag-and-drop-directories/">here</a></p>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>files</title>
+    <style>
+        .drop-target {
+            border: 2px dashed #ccc;
+            width: 200px;
+            height: 100px;
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="drop-target" class="drop-target">
+        Drop files here
+    </div>
+</body>
+<script>
+    const dropTarget = document.querySelector("#drop-target");
+
+    dropTarget.addEventListener("dragover", e => e.preventDefault());
+    dropTarget.addEventListener("drop", e => {
+        e.preventDefault();
+
+        const files = e.dataTransfer.files;
+        for (let file of files) {
+            console.log(file.name, file.size);
+
+            if (file.type.startsWith("image/")) {
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.style.maxHeight = "100px";
+                dropTarget.appendChild(img);
+            }
+        }
+    });
+</script>
+
+</html>
