@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .scrollable {
+            overflow-y: scroll;
+            height: 200px;
+            border: 1px solid blue;
+        }
+
+        .element {
+            padding: 20px;
+            border: 1px solid blue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- .scrollable>div.element*10>{Element $} -->
+    <div class="scrollable">
+        <div class="element">Element 1</div>
+        <div class="element">Element 2</div>
+        <div class="element">Element 3</div>
+        <div class="element">Element 4</div>
+        <div class="element">Element 5</div>
+        <div class="element">Element 6</div>
+        <div class="element">Element 7</div>
+        <div class="element">Element 8</div>
+        <div class="element">Element 9</div>
+        <div class="element">Element 10</div>
+        <div class="element">Element 11</div>
+        <div class="element">Element 12</div>
+        <div class="element">Element 13</div>
+        <div class="element">Element 14</div>
+        <div class="element">Element 15</div>
+        <div class="element">Element 16</div>
+        <div class="element">Element 17</div>
+        <div class="element">Element 18</div>
+        <div class="element">Element 19</div>
+        <div class="element">Element 20</div>
+
+    </div>
+</body>
+<script>
+    let duration = 1000;
+
+    const observer = new IntersectionObserver(entries => {
+        console.log(entries.length);
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.background = 'yellow';
+                entry.target.style.transition = `background ${duration}ms ease-out 0.1s`;
+                setTimeout(() => {
+                    entry.target.style.background = '';
+                }, duration);
+            }
+            else {
+                console.log("out")
+            }
+        });
+    }, {
+        root: document.querySelector('.scrollable')
+    });
+
+    document.querySelectorAll('.element').forEach(el => {
+        observer.observe(el);
+    });
+</script>
+
+</html>
