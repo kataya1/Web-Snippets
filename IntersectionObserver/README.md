@@ -27,6 +27,11 @@ document.querySelectorAll('.element').forEach(el => {
 - rootMargin: Margin around the root. Can have values similar to the CSS margin property. Default is 0px. 
 
 - threshold: Array of numbers between 0 and 1 indicating at what percentage of the target's visibility the callback should be executed. Default is 0 (as soon as even 1px is visible).
+                        enter | leave
+    // threshold: 0   - Called at 1px intersects, all px left
+    // threshold: 0.1 - Called at 10% intersecting, 90% leaving   
+    // threshold: 0.5 - Called at 50% intersecting, < 50% visible leaving   
+    // threshold: 1   - Called at 100% intersecting, called as soon as 1px leaves 
 
 
 
@@ -130,7 +135,7 @@ Each IntersectionObserverEntry contains information about the intersection chang
 - time: Timestamp of the intersection change 
 - rootBounds: Bounding rect of the root element 
 - boundingClientRect: Bounding rect of the target element 
-- intersectionRect: Bounding rect representing the area of intersection between the target element and root
+- intersectionRect: Bounding rect representing the area of intersection between the target element and root (intersectionRect.Area <= boundingClientRect.Area)
 - intersectionRatio: Ratio of intersectionRect to the target element's boundingClientRect
 - isIntersecting: TRUE if the target element intersects with the root, FALSE if it stops intersecting.
 
@@ -141,3 +146,13 @@ So in your callback function, you can check each entry to see information like:
 - entry.target to get a reference to the actual target DOM element
 
 And perform any logic based on those values. Hope this helps clarify what triggers the Intersection Observer callback! Let me know if you have any other questions.
+
+--- 
+### advanced notes
+entry.rootbounds' -which is the bounds of the intersection of the scroll container- top, bottom, left,right gets changed by rootMargin. so you don't need to do any additional calculations. also by the padding of the scrollable container 
+btw( rootMargin representation will not show correctly because of padding)
+
+However threshold is needs to be accounted for differently. for example
+`entry.target.getBoundingClientRect().bottom < entry.rootBounds.top` will give different things depending on the threshold
+
+at threshold of 1. if one pixel of the element leaves the root, the callback function inside the IntersectionObserver will be called and since it's only one pixel this condition will be false `elemBounds.bottom < ioBounds.top` the bottom of the element is still inside root.

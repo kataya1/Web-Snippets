@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100vh;
+        }
+
+
+
+        .scrollable {
+
+            position: relative;
+            overflow: scroll;
+            height: 500px;
+            width: 400px;
+            border: 1px solid black;
+            display: block;
+            /* padding: 20px; */
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            /* same as rootMargin */
+        }
+
+        .scroll_cont {
+            margin: auto;
+            margin-top: 10px;
+            position: relative;
+            width: fit-content;
+        }
+
+        .element {
+            padding: 20px;
+            max-width: 60%;
+            min-width: 50%;
+            /* margin: 5px; */
+            border-radius: 10px;
+            border: 1px solid black;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateX(0)
+        }
+
+        .rootMargin-shade {
+            position: absolute;
+            background: rgba(255, 0, 0, 0.3);
+            pointer-events: none;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-size: 80%;
+            color: #fff;
+            text-align: center;
+            display: grid;
+            align-content: center;
+            overflow: hidden;
+            z-index: 10;
+
+        }
+
+
+        #rootMarginInput {
+            width: 50px;
+            margin-right: 10px;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #setRootMargin {
+            padding: 5px 10px;
+            font-size: 16px;
+            border: 1px solid #39f;
+            border-radius: 4px;
+            background: #39f;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #thresholdSlider {
+            width: 200px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #39f;
+            border-radius: 50%;
+        }
+
+        .grid-container {
+
+            display: grid;
+            grid-template-rows: auto 1fr;
+            margin: 30px auto 0;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            border: 1px solid #333;
+            width: 400px;
+            z-index: 99;
+        }
+
+        .top-row {
+            display: flex;
+            padding: 0.5rem 0;
+        }
+
+        .bottom-row {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        hr {
+            margin: 0;
+            border: none;
+            border-top: 1px dotted #333;
+        }
+
+        label {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- .scrollable>div.element*10>{Element $} -->
+    <div class="scroll_cont">
+        <!-- scroll_cont div so that i can add the root margin shade divs -->
+        <div class="scrollable">
+            <div class="element">Element 1</div>
+            <div class="element">Element 2</div>
+            <div class="element">Element 3</div>
+            <div class="element">Element 4</div>
+            <div class="element">Element 5</div>
+            <div class="element">Element 6</div>
+            <div class="element">Element 7</div>
+            <div class="element">Element 8</div>
+            <div class="element">Element 9</div>
+            <div class="element">Element 10</div>
+            <div class="element">Element 11</div>
+            <div class="element">Element 12</div>
+            <div class="element">Element 13</div>
+            <div class="element">Element 14</div>
+            <div class="element">Element 15</div>
+            <div class="element">Element 16</div>
+            <div class="element">Element 17</div>
+            <div class="element">Element 18</div>
+            <div class="element">Element 19</div>
+            <div class="element">Element 20</div>
+
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="top-row">
+            <input type="number" id="rootMarginInput"></input>
+            <button id="setRootMargin">Set Root Margin</button>
+        </div>
+        <hr />
+        <div class="bottom-row">
+            <label>Threshold</label>
+            <input type="range" id="thresholdSlider" min="0" max="1" step="0.1">
+            <p class="threshold-value"></p>
+        </div>
+    </div>
+</body>
+<script>
+    let duration = 1000;
+    let rm = 0;
+    const intersectionCallback = entries => {
+        entries.forEach(entry => {
+            entry.target.classList.toggle("show", entry.isIntersecting)
+            if (entry.isIntersecting) {
+
+            }
+            else {
+                const elemBounds = entry.target.getBoundingClientRect();
+                const ioBounds = entry.rootBounds;
+
+                if (elemBounds.bottom < ioBounds.bottom) {
+                    console.log('exited at the top');
+                } else {
+                    console.log('exited at the bottom');
+                }
+            }
+        });
+    }
+    let options = {//options
+        root: document.querySelector('.scrollable'), // browser viewport by default, the parent element where we check if the elements are intersecting or not
+        threshold: 0, // zero by default. 0 for 1 pixel of the element, 1 for the whole element. for the intersection event to trigger
+        rootMargin: `-10px`//shrink our container by adding margin, i assume poritive numbers are good for preloading content in infinite scrollers
+
+    }
+    let observer = new IntersectionObserver(intersectionCallback, options);
+    // helper function 
+    function createThresholdVisualizer(element, borderWidth) {
+        const thresholdVisualizer = document.createElement('div');
+        thresholdVisualizer.classList.add('threshold-visualizer');
+
+        thresholdVisualizer.style.position = 'absolute';
+        thresholdVisualizer.style.top = -borderWidth + 'px';
+        thresholdVisualizer.style.left = -10 + 'px';
+        thresholdVisualizer.style.right = -10 + 'px';
+        thresholdVisualizer.style.bottom = -borderWidth + 'px';
+        thresholdVisualizer.style.border = '2px solid blue';
+        thresholdVisualizer.style.background = 'transparent';
+
+        element.appendChild(thresholdVisualizer);
+    }
+
+    let elements = document.querySelectorAll('.element')
+    elements.forEach(el => {
+
+        el.style.position = 'relative';
+        const borderWidth = parseInt(getComputedStyle(el).borderTopWidth);
+
+        createThresholdVisualizer(el)
+        observer.observe(el);
+    });
+
+
+
+    function createRMShade(scrollable, rm) {
+        document.querySelectorAll('.rootMargin-shade').forEach(shade => shade.remove())
+        let adjustedrm = rm.replace(/-/g, '');
+        const rms = adjustedrm.split(' ');
+        let rmTop, rmRight, rmBottom, rmLeft;
+        [rmTop, rmRight = rmTop, rmBottom = rmTop, rmLeft = rmRight] = rms;
+
+        // to check if it was -ve or positive so that we can add the positive margin in 
+        let OriginalrmTop, OriginalrmRight, OriginalrmBottom, OriginalrmLeft;
+        [OriginalrmTop, OriginalrmRight, OriginalrmBottom, OriginalrmLeft] = rm.split(' ');
+        console.log(OriginalrmRight)
+        function createShade() {
+
+        }
+        // Top shade
+        const shadeTop = document.createElement('div');
+        shadeTop.classList.add('rootMargin-shade');
+        shadeTop.style.top = 0;
+        shadeTop.style.left = 0;
+        shadeTop.style.right = 0;
+        shadeTop.style.height = rmTop;
+        if (!OriginalrmTop.startsWith('-')) {
+            shadeTop.style.marginTop = `-${OriginalrmTop}`;
+        }
+        shadeTop.textContent = "Root Margin"
+        scrollable.append(shadeTop);
+
+        // Right shade
+        const shadeRight = document.createElement('div');
+        shadeRight.classList.add('rootMargin-shade');
+        shadeRight.style.top = rmTop;
+        shadeRight.style.right = 0;
+        shadeRight.style.bottom = rmBottom;
+        shadeRight.style.width = rmRight;
+        if (!OriginalrmRight.startsWith('-')) {
+            shadeRight.style.marginRight = '-' + OriginalrmRight;
+            shadeRight.style.top = '-' + OriginalrmTop;
+            shadeRight.style.bottom = '-' + OriginalrmBottom;
+        }
+        scrollable.append(shadeRight);
+        shadeRight.style.writingMode = 'vertical-rl';
+        shadeRight.textContent = "Root Margin"
+        // Bottom shade  
+        const shadeBottom = document.createElement('div');
+        shadeBottom.classList.add('rootMargin-shade');
+        shadeBottom.style.bottom = 0;
+        shadeBottom.style.left = 0;
+        shadeBottom.style.right = 0;
+        shadeBottom.style.height = rmBottom;
+        if (!OriginalrmBottom.startsWith('-')) {
+            shadeBottom.style.marginBottom = `-${OriginalrmBottom}`;
+        }
+        scrollable.append(shadeBottom);
+
+        // Left shade     
+        const shadeLeft = document.createElement('div');
+        shadeLeft.classList.add('rootMargin-shade');
+        shadeLeft.style.top = rmTop;
+        shadeLeft.style.left = 0;
+        shadeLeft.style.bottom = rmBottom;
+        shadeLeft.style.width = rmLeft;
+        if (!OriginalrmLeft.startsWith('-')) {
+            shadeLeft.style.marginLeft = `-${OriginalrmLeft}`;
+            shadeLeft.style.top = '-' + OriginalrmTop;
+            shadeLeft.style.bottom = '-' + OriginalrmBottom;
+        }
+        scrollable.append(shadeLeft);
+    }
+
+    // Call on init and when rootMargin changes 
+    createRMShade(document.querySelector('.scroll_cont'), observer.rootMargin);
+
+
+    // ----- inputs
+    const rootMarginInput = document.getElementById('rootMarginInput')
+    const setRootMarginButton = document.getElementById('setRootMargin')
+    const thresholdSlider = document.getElementById('thresholdSlider')
+
+    rootMarginInput.value = options.rootMargin.split('px')[0];
+    thresholdSlider.value = options.threshold[0];
+    function optionsChangeCB() {
+        observer.disconnect();
+        observer = new IntersectionObserver(intersectionCallback, options);
+        elements.forEach(target => observer.observe(target));
+    }
+
+    setRootMarginButton.addEventListener('click', () => {
+        options.rootMargin = `${rootMarginInput.value}px`;
+        optionsChangeCB();
+        createRMShade(document.querySelector('.scroll_cont'), observer.rootMargin)
+
+    });
+    const thresholdValue = document.querySelector('.threshold-value');
+    thresholdSlider.addEventListener('input', () => {
+        options.threshold = [parseFloat(thresholdSlider.value)];
+        optionsChangeCB();
+        thresholdValue.textContent = `  ${thresholdSlider.value}`;
+    });
+
+
+</script>
+
+</html>
+
+
+<!-- /* .scrollable::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 0, 0, 0.3);
+    /* transparent red */
+
+    /* Define clipping polygon relative to scrollable size 
+    clip-path: polygon(0% 0%,
+            0% 100%,
+            calc(var(--rm) * 25%) calc(100% - var(--rm) * 1%),
+            calc(var(--rm) * 25%) calc(var(--rm) * 25%),
+            calc(75% - var(--rm) * 25%) calc(var(--rm) * 25%),
+            calc(75% - var(--rm) * 25%) calc(75% - var(--rm) * 25%),
+            calc(var(--rm) * 25%) calc(75% - var(--rm) * 25%),
+            calc(var(--rm) * 25%) 100%,
+            100% 100%,
+            100% 0%);
+} */ -->

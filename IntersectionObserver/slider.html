@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Example</title>
+    <style>
+        body {
+            padding: 20px;
+            margin: auto;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            width: 15rem;
+            --track-height: 5px;
+            --thumb-height: 2rem;
+        }
+
+        /* track modification*/
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: gray;
+            height: var(--track-height);
+        }
+
+        input[type="range"]::-moz-range-track {
+
+            background: gray;
+            height: var(--track-height);
+        }
+
+        /* thump reset*/
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            /* -webkit-appearance: none;
+            appearance: none;   */
+            border: none;
+            /*Removes extra border that FF applies*/
+            border-radius: 0;
+            /*Removes default border-radius that FF applies*/
+            background-color: transparent;
+        }
+
+        /* Thump styling */
+        input[type="range"]::-moz-range-thumb {
+            height: var(--thumb-height);
+            width: 1rem;
+            background: lightseagreen;
+            border-radius: 2px;
+
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            height: var(--thumb-height);
+            width: 1rem;
+            background: lightseagreen;
+            border-radius: 2px;
+            margin-top: calc((var(--track-height) / 2) - (var(--thumb-height) / 2));
+        }
+
+        /* focus */
+        input[type="range"]::-webkit-slider-thumb:focus {
+            border: 1px solid #053a5f;
+            outline: 3px solid #053a5f;
+            outline-offset: 0.125rem;
+        }
+
+        /******** Firefox ********/
+        input[type="range"]:focus::-moz-range-thumb {
+            border: 1px solid #053a5f;
+            outline: 3px solid #053a5f;
+            outline-offset: 0.125rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="range" min="0" max="100" step="10">
+
+</body>
+<script>
+
+</script>
+
+</html>

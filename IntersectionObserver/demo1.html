@@ -11,6 +11,7 @@
             overflow-y: scroll;
             height: 200px;
             border: 1px solid blue;
+
         }
 
         .element {
@@ -63,8 +64,10 @@
                 console.log("out")
             }
         });
-    }, {
-        root: document.querySelector('.scrollable')
+    }, {//options
+        root: document.querySelector('.scrollable'), // browser viewport by default, the parent element where we check if the elements are intersecting or not
+        threshold: 0.5, // zero by default. 0 for 1 pixel of the element, 1 for the whole element. for the intersection event to trigger
+
     });
 
     document.querySelectorAll('.element').forEach(el => {
