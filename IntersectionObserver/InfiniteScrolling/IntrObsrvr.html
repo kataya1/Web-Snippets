@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>infinite scrolling</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .wall {
+            width: 50%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .post {
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post span {
+            color: gray;
+        }
+
+        .author {
+            text-align: right;
+            margin: 5px;
+            color: gray;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wall">
+
+    </div>
+</body>
+<script>
+
+    const wall = document.querySelector('.wall');
+    // 
+    const quoteFetcher = (limit = 15) => fetch('https://api.quotable.io/quotes/random?limit=' + limit)
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(quote => {
+                // appends the quote to wall
+                const post = document.createElement('div');
+                post.classList.add('post');
+                post.innerHTML = `${quote.content} <div class="author">${quote.author}</div>`;
+                wall.appendChild(post);
+            });
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+            // Observer the last element
+            observer.observe(wall.lastElementChild)
+        })
+    // intersection observer that observes only the last element 
+    const observer = new IntersectionObserver((entries) => {
+        let entry = entries[0] // there is only one entry
+        if (entry.isIntersecting) {
+            console.log('intersection observer')
+            observer.unobserve(entry.target)
+            //get 15 more posts
+            quoteFetcher(15)
+        }
+        else {
+            console.log('out🍅')
+        }
+    }, {
+        rootMargin: "0px 0px 500px 0px" // bottom margin
+    })
+    // initialize: get the initial posts on the wall
+    quoteFetcher()
+
+
+
+</script>
+
+</html>
