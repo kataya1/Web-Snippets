@@ -1,0 +1,15 @@
+.feed {
+    display: flex;
+    flex-direction: column;
+    width: 95vw;
+    /* background-color:; */
+    margin-top: 10px;
+    margin: auto;
+    gap: 10px;
+}
+
+@media (min-width: 600px) {
+    .feed {
+        width: 60vw;
+    }
+}
