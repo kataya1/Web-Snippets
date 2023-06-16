@@ -8,7 +8,6 @@ export default function ComposeBox({ isClosing, send, open }) {
         if (open && !isClosing) {
             send(text)
         }
-        // submit logic here
     };
 
     return (

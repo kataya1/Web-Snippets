@@ -22,6 +22,15 @@ you send post -> you append to wall on your side -> server recieve -> server emi
   } 
 } 
 
+
+{
+  "type": "user_joined", 
+  "data": {
+    "id": "3",
+    "username": "Bob" 
+  } 
+} 
+
 {
   "type": "messages", 
   "data": {
@@ -40,13 +49,6 @@ you send post -> you append to wall on your side -> server recieve -> server emi
   } 
 } 
 
-{
-  "type": "user_joined", 
-  "data": {
-    "id": "3",
-    "username": "Bob" 
-  } 
-} 
 ```
 
 
@@ -56,3 +58,8 @@ Some other event typesthe WebSocket could support:
 - "user_left" - a user left
 - "typing" - someone is typing 
 - "read" - message read receipts
+
+todo:
+- [x] user_joined 
+- [ ] message post 
+- [ ] user leave message (how?) ( cleanup useffect?)

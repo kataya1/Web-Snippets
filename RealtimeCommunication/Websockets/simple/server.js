@@ -4,16 +4,20 @@ let WebSocketServer = ws.WebSocketServer
 const wss = new WebSocketServer({ port: 3000 });
 
 wss.on('connection', function connection(ws) {
+    ws.on('open', () => {
+        console.log("open 🍅")
+        ws.send('something');
+    })
     ws.on('error', console.error);
-
+    // no custom_event
+    ws.on('custom_event', () => console.log('custom_event a7a 🥒🥒🥒🥒'))
     ws.on('message', function message(data) {
         console.log('received: %s', data);
     });
-    ws.on('open', () => {
+    // no open event
 
-        ws.send('something');
-    })
 });
+
 // ws.on('', console.log('close connection'))
 
 // const express = require('express');

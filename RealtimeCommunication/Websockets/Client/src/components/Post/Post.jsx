@@ -5,7 +5,7 @@ export default function Post({ post }) {
     if (post.type === 'user_joined') {
         return (
             <p className="text-gray-500 text-sm mt-2">
-                {post.username} joined
+                {post.user} joined
             </p>
         )
     }
@@ -16,8 +16,9 @@ export default function Post({ post }) {
                 {post.content}
             </div>
             <div className="text-right text-gray-500">
-                {post.author}
+                {post.user}
             </div>
         </div>
     )
 }
+

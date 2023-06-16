@@ -1,37 +1,48 @@
 
+
 export class Post {
-
-    constructor({ author, content, id, username, type, createdAt }) {
-
-        this.id = id
+    constructor({ user, content, id, type, createdAt }) {
+        this.id = id || Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
         this.type = type
-
-        // Use createdAt from server if provided 
+        this.user = user
+        this.content = content
         this.createdAt = createdAt || Date.now()
-
-        if (type === 'user_joined') {
-            this.username = username
-        } else {
-            this.author = author
-            this.content = content
-        }
     }
-
 }
-
 export const initialPosts = [
     new Post({
-        author: 'John',
+        user: 'John',
         content: 'Hello world!',
         type: 'message'
     }),
     new Post({
-        author: 'Mary',
+        user: 'Mary',
         content: 'Happy Monday!',
         type: 'message'
     }),
     new Post({
         type: 'user_joined',
-        username: 'Bob'
+        user: 'Bob'
     })
 ]
+
+export const MessageType = Object.freeze({
+    MESSAGE: 'message',
+    USER_JOINED: 'user_joined'
+});
+
+export function constructMessage(type, { id, user, content }) {
+    const message = {
+        type,
+        data: {
+            user,
+            id
+        }
+    };
+    // Only add content for ' message' type
+    if (type === 'message') {
+        message.data.content = content;
+    }
+
+    return message;
+}
