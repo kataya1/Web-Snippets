@@ -29,7 +29,7 @@ let oldestJoinedAtIndex = Infinity
 // console.log({ ...wss.options })
 // console.log("🍅" + wss.path)
 // console.log("🍅" + wss.setMaxListeners)
-const globalSend = (payload, clients, clientNotIncluded = false) => {
+const broadCast = (payload, clients, clientNotIncluded = false) => {
     for (let client of clients) {
         if (client != clientNotIncluded)
             client.send(payload)
@@ -52,7 +52,7 @@ wss.on('connection', (ws) => {
             if (m.type == MessageType.USER_JOINED) {
                 name = m.data.user
                 // if (messages.length < oldestId) oldestId = messages.length
-                globalSend(
+                broadCast(
                     JSON.stringify(
                         constructMessage(
                             MessageType.USER_JOINED
@@ -73,7 +73,7 @@ wss.on('connection', (ws) => {
                     createdAt: new Date()
                 }
                 messages.push(message)
-                globalSend(
+                broadCast(
                     JSON.stringify(constructMessage(MessageType.MESSAGE, message)),
                     wss.clients
                 )
@@ -94,7 +94,7 @@ wss.on('connection', (ws) => {
     ws.on('close', () => {
         // Handle socket close
         console.log('calling close', id, name)
-        globalSend(
+        broadCast(
             JSON.stringify(
                 constructMessage(
                     MessageType.USER_LEFT

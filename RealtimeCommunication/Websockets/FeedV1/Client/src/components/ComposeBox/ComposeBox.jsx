@@ -14,6 +14,7 @@ export default function ComposeBox({ send, isClosing, open }) {
             }
 
             send(JSON.stringify(message))
+            setText('')
         }
     };
 
