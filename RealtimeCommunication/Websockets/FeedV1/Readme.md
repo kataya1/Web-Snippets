@@ -1,4 +1,4 @@
-this is the implementation of the wall app. where the post will only be added to the wall if it was re-emited from the server side. 
+this is the implementation of the wall app. where the post will only be added to the wall if it was re-emited from the server side.
 ```
 you send post -> server recieve -> server emit for all clients -> you append post
 ```
@@ -7,18 +7,18 @@ another approach is
 ```
 you send post -> you append to wall on your side -> server recieve -> server emit to all clients (but sender/including sender)
 ```
+notes: [notes](https://drive.google.com/file/d/1Y1qc4YFPY4KxvpFR6t7F2PdIzD2Ycz82/view?usp=sharing)
 
-
-
+schema
 ```json
 {
   "type": "message", 
   "data": {
-    "message": {
+    
       "id": "1", 
       "user": "John", 
-      "content": "Hello world!" 
-    } 
+      "content": "Hello world!" ,
+      "createdAt" : "date"
   } 
 } 
 
@@ -31,6 +31,7 @@ you send post -> you append to wall on your side -> server recieve -> server emi
   } 
 } 
 
+// i believe this is for the http request
 {
   "type": "messages", 
   "data": {
@@ -124,3 +125,5 @@ possible scinarios
 - prevent spam ( throttle )
 
 - send coppied images
+
+
