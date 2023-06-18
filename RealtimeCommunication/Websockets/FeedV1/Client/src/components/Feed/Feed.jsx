@@ -6,8 +6,8 @@ import Post from '../Post/Post';
 
 export default function Feed({ posts }) {
     return (
-        <article className="flex flex-col w-full max-w-4xl mx-auto my-10 gap-4">
-            {posts.map(post => (
+        <article className="flex flex-col w-full max-w-4xl mx-auto my-10 gap-2">
+            {posts.toReversed().map(post => (
                 <Post
                     key={post.id}
                     post={post}

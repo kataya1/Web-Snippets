@@ -1,16 +1,24 @@
 import { useState } from "react";
 
-export default function ComposeBox({ isClosing, send, open }) {
+export default function ComposeBox({ send, isClosing, open }) {
     const [text, setText] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (open && !isClosing) {
-            send(text)
+            const message = {
+                type: "message",
+                data: {
+                    content: text
+                }
+            }
+
+            send(JSON.stringify(message))
         }
     };
 
     return (
+        open &&
         <form onSubmit={handleSubmit} className="flex justify-center">
             <textarea
                 className="bg-gray-100 rounded-lg px-4 py-4 m-4 w-1/2"
