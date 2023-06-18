@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="messages"></ul>
+    <script>
+
+        const messages = document.querySelector('#messages');
+        // Create a new WebSocket connecting to port 5050 
+        const socket = new WebSocket('ws://localhost:5050');
+
+        // When the connection opens, log a message 
+        socket.onopen = () => {
+            console.log('Connected!');
+        }
+
+        // When a message is received, append it to the #messages element
+        socket.onmessage = (event) => {
+            let li = document.createElement('li');
+            li.innerText = event.data;
+            messages.appendChild(li);
+        }
+
+        // Log any WebSocket errors 
+        socket.onerror = (error) => {
+            console.log('WebSocket error: ', error);
+        }
+
+        // When the connection closes, log a message 
+        socket.onclose = () => {
+            console.log('Disconnected');
+        } 
+    </script>
+</body>
+
+</html>
