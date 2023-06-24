@@ -126,4 +126,50 @@ possible scinarios
 
 - send coppied images
 
+- send "typing" status
 
+## ideas for Feed V2
+
+- multiple rooms using websockets.
+  [websocket docs](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketaddress-protocols-options)
+  -  the user makes a get request to "http://{host}:{port}/room/:room_id"
+  - creating a websocket server on that route "ws://{host}:{port}/room/:room_id"
+  - var wss = new WebSocketServer({server: server, path: "/hereIsWS"});
+  - new WebSocketServer(options[, callback])
+
+  - interesting pattern [multiple-ws-servers-sharing-a-single-https-server](https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketaddress-protocols-options)
+  ```js
+  const server = createServer();
+  const wss1 = new WebSocketServer({ noServer: true });
+  const wss2 = new WebSocketServer({ noServer: true });
+
+  wss1.on('connection', function connection(ws) {
+    ws.on('error', console.error);
+
+    // ...
+  });
+
+  wss2.on('connection', function connection(ws) {
+    ws.on('error', console.error);
+
+    // ...
+  });
+
+  server.on('upgrade', function upgrade(request, socket, head) {
+    const { pathname } = parse(request.url);
+
+    if (pathname === '/foo') {
+      wss1.handleUpgrade(request, socket, head, function done(ws) {
+        wss1.emit('connection', ws, request);
+      });
+    } else if (pathname === '/bar') {
+      wss2.handleUpgrade(request, socket, head, function done(ws) {
+        wss2.emit('connection', ws, request);
+      });
+    } else {
+      socket.destroy();
+    }
+  });
+
+  server.listen(8080);
+  ```

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        //In an ideal world, all asynchronous functions would already return promises. Unfortunately,
+        setTimeout(() => saySomething("10 seconds passed"), 10 * 1000);
+
+        // solution
+        const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+
+        wait(10 * 1000)
+            .then(() => saySomething("10 seconds"))
+            .catch(failureCallback)
+        // ************
+        // ** simple **
+        // ************
+        function wait(duration) {
+            return new Promise(resolve => {
+                setTimeout(resolve, duration);
+            });
+        }
+
+        wait(10 * 1000)
+            .then(() => {
+                saySomething("10 seconds passed");
+
+            });
+        // same as up
+        function wait(message, delay) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    saySomething(message);
+                    resolve();
+                }, delay);
+            });
+        }
+
+        wait("10 seconds passed", 10 * 1000)
+            .then(() => {
+                console.log("Done!");
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise demo</title>
+</head>
+
+<body>
+    hello
+    <script>
+        let p = new Promise((resolve, reject) => {
+            setTimeout((s) => {
+                resolve(1)
+                console.log(s)
+            }, 3000, 'hello')
+            // resolve(1)
+            // reject('bye')
+        })
+        console.log(p)
+        console.log(p)
+
+        p.then((d) => d + 2)
+            .then(out => out + 2)
+            .then((out2) => { console.log(out2) })
+            .then(() => console.log('no argument here since the last then didn\'t return anything'))
+        // console.log(p.catch())
+
+
+        // #######################
+        // #### promise return ####
+        // #######################
+
+        const listOfIngredients = [];
+        const listOfIngredients2 = [];
+        const doSomething = () => {
+            return new Promise((resolve, reject) => {
+                resolve('https://api.quotable.io/quotes/random')
+            })
+        }
+        doSomething()
+            .then((url) => {
+                // I forgot to return this
+                fetch(url);
+            })
+            .then((result) => {
+                // result is undefined, because nothing is returned from
+                // the previous handler.
+                // There's no way to know the return value of the fetch()
+                // call anymore, or whether it succeeded at all.
+            });
+        doSomething()
+            .then((url) => {
+                // I forgot to return this
+                fetch(url)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        listOfIngredients.push(data[0].content);
+                    });
+            })
+            .then(() => {
+                console.log(listOfIngredients);
+                // Always [], because the fetch request hasn't completed yet.
+            });
+
+        doSomething()
+            .then((url) => {
+                // I forgot to return this
+                return fetch(url)
+                    .then((res) => res.json())
+                    .then((data) => {
+
+                        listOfIngredients2.push(data[0].content);
+                    });
+            })
+            .then(() => {
+                console.log(listOfIngredients2);
+                // Always [], because the fetch request hasn't completed yet.
+            });
+
+        // OR - best -
+
+        doSomething()
+            .then((url) => fetch(url))
+            .then((res) => res.json())
+            .then((data) => {
+                listOfIngredients2.push(data[0].content);
+            })
+            .then(() => {
+                console.log(listOfIngredients2);
+            });
+
+    </script>
+</body>
+
+</html>
