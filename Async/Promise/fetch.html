@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <p></p>
+    <script>
+        // just wrapping synchronous code with promsie doesn't make it asynchronous
+        // the executer function executes immediately 
+        const body = document.querySelector("body>p")
+
+        let fetch0 = (url) => new Promise((resolve, reject) => {
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", url, true); // false for synchronous request
+
+            xmlHttp.onload = () => resolve(xmlHttp.responseText);
+            xmlHttp.onerror = () => reject(xmlHttp.status);
+            xmlHttp.send(null);
+        })
+        fetch0('https://api.quotable.io/quotes/random')
+            .then(res => JSON.parse(res))
+            .then(data => body.textContent += data[0].content)
+            .catch(console.log)
+
+        var promise = new Promise((resolve, reject) => {
+            setTimeout(function () {
+                resolve('hello world');
+            }, 2000);
+        });
+
+        promise.then((data) => {
+            console.log(data);
+        });
+    </script>
+    <script>
+        // not working for now
+
+
+    </script>
+</body>
+
+</html>

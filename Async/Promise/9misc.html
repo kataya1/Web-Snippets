@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var promise = new Promise((resolve, reject) => {
+            setTimeout(function () {
+                resolve('hello world')
+                // return 'hello world' doesn't work
+            }, 2000);
+        });
+
+        promise.then((data) => {
+            console.log(data);
+            return 'hello bitch'
+            // resolve( 'hello bitch') // don't work
+        }).then(
+            console.log
+        )
+
+    </script>
+    <script>
+        var promise = new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve(1);
+            }, 2000);
+        });
+
+        promise.then(function (data) {
+            console.log(data + 1);
+        }) // 2
+
+        promise.then(function (data) {
+            console.log(data + 1);
+        }); // 2
+
+        promise.then(function (data) {
+            console.log(data + 1);
+        }); // 2
+    </script>
+
+    <script>
+
+        var promise = new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('hello world 1');
+                resolve('hello world 2');
+                resolve('hello world 3');
+                resolve('hello world 4');
+            }, 1000);
+        });
+
+        promise.then(function success(data) {
+            console.log(data);
+        });
+    </script>
+</body>
+
+</html>
+
+<script>
+    // As a rule of thumb: When a function can return a promise, ALWAYS return a promise. Otherwise you'll have this ugly code everywhere:
+    function job() {
+        if (test) {
+            return aNewPromise();
+        } else {
+            return 42;
+        }
+    }
+
+    var result = job();
+
+    if (typeof job === 'object' && typeof job.then === 'function') {
+        // ...
+    } else {
+        // ...
+    }
+</script>

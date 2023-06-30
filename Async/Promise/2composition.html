@@ -13,7 +13,44 @@
         There are four composition tools for running asynchronous operations concurrently: Promise.all(),
         Promise.allSettled(), Promise.any(), and Promise.race().
     </p>
+    <h2>
+
+        Promise.all()
+    </h2>
+    Fulfills when all of the promises fulfill; rejects when any of the promises rejects.
+    <h2>
+
+        Promise.allSettled()
+    </h2>
+    Fulfills when all promises settle.
+
+    <h2>Promise.any()</h2>
+    Fulfills when any of the promises fulfills; rejects when all of the promises reject.
+
+    <h2>Promise.race()</h2>
+    Settles when any of the promises settles. In other words, fulfills when any of the promises fulfills; rejects when
+    any of the promises rejects.
+
+
     <script>
+        'use strict';
+        const p1 = Promise.resolve(3);
+        const p2 = 42;
+        const p3 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 500, "one");
+        });
+        const p4 = new Promise(function (resolve, reject) {
+            setTimeout(resolve, 0, "two");
+        });
+        const arr = [p1, p2, p3, p4]
+        Promise.race(arr) // if a car(promise) breaks(reject) on the track, stop the race
+            .then(val => console.log('race', val));
+        Promise.all(arr)
+            .then(val => console.log('all', val));
+        Promise.allSettled(arr)
+            .then(val => console.log('allSettled', val));
+        Promise.any(arr) // down hill cheese-chasing competetion. if ANY one makes it alive, they get the cheese
+            .then(val => console.log('any', val));
 
     </script>
 </body>
