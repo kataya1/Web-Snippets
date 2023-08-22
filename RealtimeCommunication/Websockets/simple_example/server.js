@@ -11,37 +11,37 @@ const clients = [];
 // When a client connects  
 wss.on('connection', (ws) => {
 
-    // Generate a random name for the user 
-    const name = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] });
+  // Generate a random name for the user 
+  const name = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] });
 
-    // Add the socket to the clients array
-    clients.push(ws);
+  // Add the socket to the clients array
+  clients.push(ws);
 
-    // Send a broadcast message that the user connected
-    broadcast(`${name} connected!`);
-    ws.on('error', (err) => {
-        console.error(err);
-    });
+  // Send a broadcast message that the user connected
+  broadcast(`${name} connected!`);
+  ws.on('error', (err) => {
+    console.error(err);
+  });
 
-    ws.on('message', (data) => {
-        // console.log(`Received message from ${ws.name}: ${data}`);
-    });
-    // When a connected client disconnects 
-    ws.on('close', () => {
+  ws.on('message', (data) => {
+    // console.log(`Received message from ${ws.name}: ${data}`);
+  });
+  // When a connected client disconnects 
+  ws.on('close', () => {
 
-        // Remove the socket from the clients array 
-        clients.splice(clients.indexOf(ws), 1);
+    // Remove the socket from the clients array 
+    clients.splice(clients.indexOf(ws), 1);
 
-        // Send a broadcast message that the user disconnected 
-        broadcast(`${name} disconnected!`);
-    });
+    // Send a broadcast message that the user disconnected 
+    broadcast(`${name} disconnected!`);
+  });
 });
 
 // Function to send a message to all connected clients
 function broadcast(message) {
-    clients.forEach(client => {
-        client.send(message);
-    })
+  clients.forEach(client => {
+    client.send(message);
+  })
 }
 // ws.on('', console.log('close connection'))
 

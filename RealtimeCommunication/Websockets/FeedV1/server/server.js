@@ -18,6 +18,18 @@ const server = http.createServer(function (req, res) {
 server.listen(port = 8182, () => {
     console.log('HTTPS Server running on port ' + port)
 });
+
+// cursor based pagination  (2nd of august work)
+// server.on('request') 
+// i can change this to use the unrepress library 
+
+
+
+
+
+
+
+/// websocket
 const wss = new ws.Server({ server })
 
 const messages = []
