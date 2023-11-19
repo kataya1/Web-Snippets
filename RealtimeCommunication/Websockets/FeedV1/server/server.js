@@ -47,7 +47,7 @@ const broadCast = (payload, clients, clientNotIncluded = false) => {
             client.send(payload)
     }
 }
-
+const pageSize = 30
 wss.on('connection', (ws) => {
 
     const id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
@@ -80,7 +80,7 @@ wss.on('connection', (ws) => {
                 console.log(name)
                 const message = {
                     id: messages.length, // use message index as id
-                    user: name,
+                    user: name, // name here works because of closure
                     content: m.data.content,
                     createdAt: new Date()
                 }
@@ -129,6 +129,7 @@ wss.on('connection', (ws) => {
 
 
 const MessageType = Object.freeze({
+    LOAD_MORE: 'load_more',
     MESSAGE: 'message',
     USER_JOINED: 'user_joined',
     USER_LEFT: 'user_left'

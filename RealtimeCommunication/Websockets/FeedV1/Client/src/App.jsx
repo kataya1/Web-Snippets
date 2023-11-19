@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 
 function App() {
   const [userName, setUserName] = useState('')
-  const url = 'ws://192.168.1.67:8182'
+  const url = 'ws://127.0.0.1:8182'
   return (
     <div className="max-w-70vw mx-auto">
       {userName ?
