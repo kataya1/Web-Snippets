@@ -5,10 +5,18 @@
     background-color: lightblue;
   }
 
-  .node-box:hover {
-    cursor: grab; 
-  }
+.node-box:hover {
+  cursor: grab; 
+}
 
-  .node-box:active {
-    cursor: grabbing; 
-  }
+.node-box:active {
+  cursor: grabbing; 
+}
+
+.dragging{
+  /* background-color: red; */
+  border: 4px dotted blueviolet;
+  /* visibility: collapse; */
+  /* display: ; */
+  /* opacity: 0.01; */
+}

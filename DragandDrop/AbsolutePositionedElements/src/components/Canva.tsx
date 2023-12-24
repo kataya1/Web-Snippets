@@ -15,6 +15,7 @@ const Canva: React.FC = () => {
 
     // logic to add box
     const rect = (e.target as HTMLElement).getBoundingClientRect();
+    console.log("the canva", rect);
     const id = uuidv4();
     setBoxes((existing) => [
       ...existing,
@@ -36,13 +37,16 @@ const Canva: React.FC = () => {
     const { id, offsetX, offsetY } = data;
     // but how to set the top and left value when i don't have the element
     // solution - I don't need to have it. when boxes change it rerenders. loop/map over nodeprops find the element with the id and modify it's top and left with the new value
-    const left = e.clientX + offsetX;
-    const top = e.clientY + offsetY;
+    const canvaRect = (e.target as HTMLElement).getBoundingClientRect();
 
     setBoxes((prevBoxes) => {
       return prevBoxes.map((box) => {
         if (box.id === id) {
-          return { ...box, left, top };
+          return {
+            ...box,
+            left: e.clientX - canvaRect.left - offsetX,
+            top: e.clientY - canvaRect.top - offsetY,
+          };
         }
         return box;
       });
