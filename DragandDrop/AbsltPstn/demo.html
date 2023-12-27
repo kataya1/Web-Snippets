@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* CSS */
+
+      #canva {
+        width: 500px;
+        height: 300px;
+        border: 1px solid #ccc;
+      }
+
+      .node-box {
+        width: 100px;
+        height: 100px;
+        background: #7db9e8;
+        position: absolute;
+      }
+
+      .node-box.dragging {
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HTML -->
+
+    <div id="app">
+      <div
+        id="canva"
+        ondblclick="handleDoubleClick(event)"
+        ondrop="handleDrop(event)"
+        ondragover="(e=>e.preventDefault())(event)"
+      >
+        <!-- Node boxes will be added here -->
+      </div>
+    </div>
+  </body>
+  <script>
+    // DOM Cache
+    const cache = {
+      canva: null,
+      draggedBox: null,
+    };
+
+    function getCanva() {
+      if (!cache.canva) {
+        cache.canva = document.getElementById("canva");
+      }
+      return cache.canva;
+    }
+
+    function handleDoubleClick(event) {
+      const canva = getCanva();
+
+      const rect = canva.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      const id = Date.now().toString();
+
+      const box = {
+        id: id,
+        x: x - 50,
+        y: y - 50,
+      };
+
+      renderBox(box);
+    }
+
+    function renderBox(box) {
+      const el = document.createElement("div");
+      el.className = "node-box";
+      el.id = box.id;
+      el.style.left = box.x + "px";
+      el.style.top = box.y + "px";
+      // Add draggable
+      el.draggable = true;
+
+      // Drag events
+      el.ondragstart = handleDragStart;
+      el.ondragend = handleDragEnd;
+
+      // Append to canva
+      getCanva().appendChild(el);
+    }
+
+    function handleDragStart(event) {
+      // Set drag data
+      // Cache dragged box reference
+      cache.draggedBox = event.target;
+
+      // Set drag data
+      event.dataTransfer.setData("text", event.target.id);
+
+      // Add dragging class
+      event.target.classList.add("dragging");
+    }
+
+    function handleDragEnd(event) {
+      // Remove dragging class
+      cache.draggedBox = null;
+      event.target.classList.remove("dragging");
+    }
+    function handleDrop(event) {
+      const id = event.dataTransfer.getData("text");
+      // Get mouse position on canva
+      const canvaRect = getCanva().getBoundingClientRect();
+      const x = event.clientX - canvaRect.left;
+      const y = event.clientY - canvaRect.top;
+
+      // Get cached dragged box
+      const box = cache.draggedBox;
+
+      // Update box position
+      box.style.left = x - 50 + "px";
+      box.style.top = y - 50 + "px";
+
+      // Clear cache
+      cache.draggedBox = null;
+    }
+
+    // Logic to handle drag and drop...
+  </script>
+</html>

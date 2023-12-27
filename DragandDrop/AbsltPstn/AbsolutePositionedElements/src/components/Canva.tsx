@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import NodeBox, { NodeBoxProps } from "./NodeBox";
 import { v4 as uuidv4 } from "uuid";
 import "./Canva.css";
 
 const Canva: React.FC = () => {
   const [boxes, setBoxes] = useState<NodeBoxProps[]>([]);
-
+  const ref = useRef<HTMLDivElement>(null);
   function handleDoubleClick(e: React.MouseEvent) {
     const targetBox = e.target as HTMLElement;
 
@@ -37,7 +37,7 @@ const Canva: React.FC = () => {
     const { id, offsetX, offsetY } = data;
     // but how to set the top and left value when i don't have the element
     // solution - I don't need to have it. when boxes change it rerenders. loop/map over nodeprops find the element with the id and modify it's top and left with the new value
-    const canvaRect = (e.target as HTMLElement).getBoundingClientRect();
+    const canvaRect = ref.current!.getBoundingClientRect();
 
     setBoxes((prevBoxes) => {
       return prevBoxes.map((box) => {
@@ -54,9 +54,11 @@ const Canva: React.FC = () => {
   };
   return (
     <div
+      ref={ref}
       className="canva"
       onDoubleClick={handleDoubleClick}
       onDragOver={handleDragOver}
+      onDragEnter={handleDragOver}
       onDrop={handleDrop}
     >
       {boxes.map((box) => (

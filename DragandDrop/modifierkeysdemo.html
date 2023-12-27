@@ -1,77 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>modifierKEYS</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-    <h3>try using alt, ctrl key when hovering over the drop zone </h3>
+  <body>
+    <h3>try using alt, ctrl key when hovering over the drop zone</h3>
     <div class="dragContainer">
-        <div class="draggable source" draggable="true">Drag me 1</div>
-        <div class="draggable source" draggable="true">Drag me 2</div>
-        <div class="draggable source" draggable="true">Drag me 3</div>
+      <div class="draggable source" draggable="true">Drag me 1</div>
+      <div class="draggable source" draggable="true">Drag me 2</div>
+      <div class="draggable source" draggable="true">Drag me 3</div>
     </div>
     drop target
-    <div id="dropTarget" class="dragContainer target">
-
-    </div>
-</body>
-<script>
+    <div id="dropTarget" class="dragContainer target"></div>
+  </body>
+  <script>
     const sources = document.querySelectorAll(".source");
     const target = document.querySelector(".target");
 
     for (let source of sources) {
-        source.addEventListener("dragstart", dragStart);
-        source.addEventListener("dragend", dragend);
-
+      source.addEventListener("dragstart", dragStart);
+      source.addEventListener("dragend", dragend);
     }
     target.addEventListener("dragover", dragOver);
     target.addEventListener("drop", drop);
 
-
     function dragStart(e) {
-        console.log(e)
-        e.dataTransfer.setData("text/html", e.target.innerHTML);
-        // e.dataTransfer.setData("text/plain", e.target);
-        e.dataTransfer.effectAllowed = "all";
+      console.log(e);
+      e.dataTransfer.setData("text/html", e.target.innerHTML);
+      // e.dataTransfer.setData("text/plain", e.target);
+      e.dataTransfer.effectAllowed = "all";
     }
 
     function dragOver(e) {
-        if (e.altKey) {
-            e.dataTransfer.dropEffect = "copy";
-        } else if (e.ctrlKey) {
-            e.dataTransfer.dropEffect = "link"
-        }
-        else {
-            e.dataTransfer.dropEffect = "move";
-        }
+      if (e.altKey) {
+        e.dataTransfer.dropEffect = "copy";
+      } else if (e.ctrlKey) {
+        e.dataTransfer.dropEffect = "link";
+      } else {
+        e.dataTransfer.dropEffect = "move";
+      }
 
-        e.preventDefault();
+      e.preventDefault();
     }
 
     function drop(e) {
-        let data = e.dataTransfer.getData("text/html");
-        if (e.ctrlKey) {
-            let link = document.createElement("a");
-            link.innerText = data;
-            link.href = "#";
-            target.appendChild(link);
-        } else {
-            target.innerHTML += `<div class="draggable">${data}</div>`
-        }
+      let data = e.dataTransfer.getData("text/html");
+      if (e.ctrlKey) {
+        let link = document.createElement("a");
+        link.innerText = data;
+        link.href = "#";
+        target.appendChild(link);
+      } else {
+        target.innerHTML += `<div class="draggable">${data}</div>`;
+      }
 
-        e.preventDefault();
+      e.preventDefault();
     }
     function dragend(e) {
-        if (e.dataTransfer.dropEffect == 'move') {
-            e.target.remove();
-        }
+      if (e.dataTransfer.dropEffect == "move") {
+        e.target.remove();
+      }
     }
-</script>
-
+  </script>
 </html>

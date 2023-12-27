@@ -15,7 +15,8 @@ const NodeBox: React.FC<NodeBoxProps> = ({ id, top, left }) => {
     const rect = (ref.current as HTMLDivElement).getBoundingClientRect();
     // const rect = ref.current?.getBoundingClientRect();
     ref.current?.classList.add("dragging");
-
+    ref.current!.setAttribute("aria-grabbed", "true");
+    ref.current!.setAttribute("role", "draggable");
     // where the mouse grapped the nodebox
     const offsetX = e.clientX - rect.x;
     const offsetY = e.clientY - rect.y;
@@ -29,6 +30,7 @@ const NodeBox: React.FC<NodeBoxProps> = ({ id, top, left }) => {
     );
     e.dataTransfer.dropEffect = "move";
     e.dataTransfer.effectAllowed = "move";
+
     console.log(e.dataTransfer);
   }
 
@@ -37,15 +39,16 @@ const NodeBox: React.FC<NodeBoxProps> = ({ id, top, left }) => {
     // console.log("Drag end at: ", e.clientX, e.clientY);
     (e.target as HTMLElement).classList.remove("dragging");
     e.dataTransfer.clearData();
-    // e.target.classList.remove("dragging");
-    // ref.current?.classList.remove("dragging");
+
+    ref.current!.setAttribute("aria-grabbed", "false");
+    ref.current!.blur();
   }
   return (
     <div
       ref={ref}
       className="node-box"
       id={id}
-      style={{ top, left }}
+      style={{ top, left, zIndex: 3 }}
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
