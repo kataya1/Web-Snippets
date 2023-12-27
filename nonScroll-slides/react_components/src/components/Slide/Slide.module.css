@@ -1,0 +1,27 @@
+.slide {
+    height: 100vh; 
+    width: 100vw;
+    overflow-y: scroll;
+    border: 2px solid black;
+  }
+  
+  /* index.css */ 
+
+/* 
+.slide-enter {
+  transform: translateX(100%);
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+  transition: all 500ms ease;
+}
+
+.slide-exit {
+  transform: translateX(0);
+}
+
+.slide-exit-active {
+  transform: translateX(-100%);
+  transition: all 500ms ease;
+} */
